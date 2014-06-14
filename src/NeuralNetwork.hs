@@ -52,9 +52,11 @@ totalCost theta1 theta2 y x = (/l) $ V.sum $ V.zipWith (\xx yy -> singleCost the
     where
         l = fromIntegral $ V.length y
 
+trainNN :: (Floating a, Ord a) => V.Vector a -> V.Vector (V.Vector a) -> V.Vector (V.Vector a) -> Int -> V.Vector a
 trainNN init x y iter = last $ take iter $ gradientDescent (\theta -> totalCost (fst $ unroll theta) (snd $ unroll theta) (V.map (V.map auto) y) (V.map (V.map auto) x)) init
 
 
+-- functions that roll and unroll the theta, matrix to vector and vector to matrix conversion functions.
 unroll :: (Floating a) => V.Vector a -> (V.Vector (V.Vector a), V.Vector (V.Vector a))
 unroll theta = ((temp $ take l2 $ fun (l1+1) theta'), (temp $ take l3 $ fun (l2+1) theta''))
     where
@@ -65,6 +67,8 @@ unroll theta = ((temp $ take l2 $ fun (l1+1) theta'), (temp $ take l3 $ fun (l2+
 roll :: (Floating a) => V.Vector (V.Vector a) -> V.Vector (V.Vector a) -> V.Vector a
 roll theta1 theta2 =  (join theta1) <> (join theta2)
 
+
+-- hardcoded the number of nodes in the neural network in each layer
 l1 = 200
 l2 = 20
 l3 = 10
