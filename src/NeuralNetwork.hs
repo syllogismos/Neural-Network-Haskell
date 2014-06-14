@@ -56,6 +56,12 @@ trainNN :: (Floating a, Ord a) => V.Vector a -> V.Vector (V.Vector a) -> V.Vecto
 trainNN init x y iter = last $ take iter $ gradientDescent (\theta -> totalCost (fst $ unroll theta) (snd $ unroll theta) (V.map (V.map auto) y) (V.map (V.map auto) x)) init
 
 
+-- given theta and x predict y, just the probabilities? or the actual values.
+predictLikelihood :: (Floating a) => V.Vector a -> V.Vector (V.Vector a) -> V.Vector (V.Vector a)
+predictLikelihood theta x = V.map (\temp -> htheta temp theta1 theta2) x
+    where
+        (theta1, theta2) = unroll theta
+
 -- functions that roll and unroll the theta, matrix to vector and vector to matrix conversion functions.
 unroll :: (Floating a) => V.Vector a -> (V.Vector (V.Vector a), V.Vector (V.Vector a))
 unroll theta = ((temp $ take l2 $ fun (l1+1) theta'), (temp $ take l3 $ fun (l2+1) theta''))
