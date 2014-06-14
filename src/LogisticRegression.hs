@@ -35,9 +35,17 @@ totalLogLikelihood theta y x = (a - delta * b) / l
     a = V.sum $ V.zipWith (logLikelihood theta) y x
     b = (/2) $ V.sum $ V.map (^2) theta
 
-estimate :: (Floating b) => V.Vector b -> V.Vector (V.Vector b) -> V.Vector b
-estimate theta x = V.map (\xx -> logit (V.sum $ V.zipWith (*) theta xx)) x
+estimate :: (Floating b, Ord b) => V.Vector b -> V.Vector (V.Vector b) -> V.Vector b
+estimate theta x = V.map (\xx -> predict $ logit (V.sum $ V.zipWith (*) theta xx)) x
 
+success y yhat = correct/total
+    where
+        correct = fromIntegral $ V.length $ V.elemIndices True $ V.zipWith (==) y yhat
+        total = fromIntegral $ V.length y
+
+predict prob
+    | prob > 0.5 = 1.0
+    | otherwise = 0.0
 
 -- estimates y x = gradientDescent $ \theta -> totalLogLikelihood theta (V.map auto y) (V.map (V.map auto) x)
 train :: (Floating a, Ord a) => V.Vector a -> V.Vector (V.Vector a) -> V.Vector a -> Int -> V.Vector a
