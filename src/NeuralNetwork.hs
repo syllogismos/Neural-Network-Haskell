@@ -52,7 +52,7 @@ totalCost theta1 theta2 y x = (/l) $ V.sum $ V.zipWith (\xx yy -> singleCost the
     where
         l = fromIntegral $ V.length y
 
-trainNN theta x y = gradientDescent $ \theta -> totalCost (fst $ unroll theta) (snd $ unroll theta) (V.map (V.map auto) y) (V.map (V.map auto) x)
+trainNN init x y iter = last $ take iter $ gradientDescent (\theta -> totalCost (fst $ unroll theta) (snd $ unroll theta) (V.map (V.map auto) y) (V.map (V.map auto) x)) init
 
 
 unroll :: (Floating a) => V.Vector a -> (V.Vector (V.Vector a), V.Vector (V.Vector a))
