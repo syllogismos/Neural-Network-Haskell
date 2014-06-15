@@ -32,12 +32,16 @@ htheta x theta1 theta2 = nextLayer hidden theta2
 fun :: (Floating a) => Int -> [a] -> [[a]]
 fun n = map (take n) . takeWhile (not . null) . iterate (drop n)
 
+
+-- I'm probably not gonna use this function and just generate a long ass vector and use unroll/roll fucntions
+-- generateTheta gives the same random values..
 generateTheta :: Int -> Int -> IO (V.Vector (V.Vector Double))
 generateTheta l1 l2 = do
     gen <- getStdGen
     let
         mat = take l2 $ fun l1 $ randomRs ((-0.1), 0.1) gen
     return $ V.fromList $ map V.fromList mat
+
 
 logLikelihood :: (Floating a) => a -> a -> a
 logLikelihood y h = y * (logit h) + (1 - y) * logit(1 - h)
@@ -73,6 +77,9 @@ unroll theta = ((temp $ take l2 $ fun (l1+1) theta'), (temp $ take l3 $ fun (l2+
 roll :: (Floating a) => V.Vector (V.Vector a) -> V.Vector (V.Vector a) -> V.Vector a
 roll theta1 theta2 =  (join theta1) <> (join theta2)
 
+
+howGoodIsMyPrediction :: V.Vector (V.Vector Double) -> V.Vector Double -> Double
+howGoodIsMyPrediction predictions yraw = undefined
 
 -- hardcoded the number of nodes in the neural network in each layer
 l1 = 200
