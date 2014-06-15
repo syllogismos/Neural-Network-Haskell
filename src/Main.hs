@@ -42,18 +42,6 @@ usingLogisticRegression trainingFileName = do
 -- tootoo x = gradientDescent (\[t1,t2,t3] ->  (sum $ zipWith (*) [t1,t2,t3] $ map auto x))
 
 
--- I know this is a dumb implementation.. but im tired and don't want to think too much.. pls forgive
-getYBinary :: (Floating a, Eq a) => a -> V.Vector a
-getYBinary 1.0       = V.fromList [1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
-getYBinary 2.0       = V.fromList [0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
-getYBinary 3.0       = V.fromList [0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
-getYBinary 4.0       = V.fromList [0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0]
-getYBinary 5.0       = V.fromList [0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0]
-getYBinary 6.0       = V.fromList [0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0]
-getYBinary 7.0       = V.fromList [0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0]
-getYBinary 8.0       = V.fromList [0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0]
-getYBinary 9.0       = V.fromList [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0]
-getYBinary otherwise = V.fromList [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0]
 
 usingNeuralNetwork :: String -> IO ()
 usingNeuralNetwork trainingFileName = do
